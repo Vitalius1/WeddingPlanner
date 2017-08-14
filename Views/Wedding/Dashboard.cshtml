@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+<h1>Welcome to the Wedding Planner</h1>
+<a href="/logout">Log Out</a><br><br>
+<table>
+    <thead>
+        <th>Wedding</th>
+        <th>Date</th>
+        <th>Guest Count</th>
+        <th>Action</th>
+    </thead>
+    <tbody>
+    @{
+        foreach(var wed in ViewBag.Weddings)
+        {
+            <tr>
+                <td><a href="wedInfo/@wed.WeddingId">@wed.BrideName & @wed.GroomName</a></td>
+                <td>@wed.Date.ToString("MMM dd, yyyy")</td>
+                <td>@wed.Guests.Count</td>
+                <td>
+                    @foreach(var guest in wed.Guests)
+                    {
+                        if(wed.Creator == ViewBag.UserId)
+                        {
+                            <a href="delete/@wed.WeddingId">delete</a>
+                        }
+                        else
+                        {
+                            if(guest.UserId == ViewBag.UserId)
+                            {
+                                <a href="unrsvp/@wed.WeddingId">Un-RSVP</a>
+                            }
+                            else
+                            {
+                                <a href="rsvp/@wed.WeddingId">RSVP</a>
+                            }
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+<br>
+<a href="/planner"><button class="submit-button">New Wedding</button></a>
