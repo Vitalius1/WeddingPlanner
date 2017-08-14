@@ -14,28 +14,33 @@
     @{
         foreach(var wed in ViewBag.Weddings)
         {
+        bool positive = false;
             <tr>
                 <td><a href="wedInfo/@wed.WeddingId">@wed.BrideName & @wed.GroomName</a></td>
                 <td>@wed.Date.ToString("MMM dd, yyyy")</td>
                 <td>@wed.Guests.Count</td>
                 <td>
+                    @if(wed.Creator == ViewBag.UserId)
+                    {
+                        <a href="delete/@wed.WeddingId">delete</a>
+                    }
+                    else
+                    {
                     @foreach(var guest in wed.Guests)
                     {
-                        if(wed.Creator == ViewBag.UserId)
+                        if(guest.UserId == ViewBag.UserId)
                         {
-                            <a href="delete/@wed.WeddingId">delete</a>
+                            positive = true;
                         }
-                        else
-                        {
-                            if(guest.UserId == ViewBag.UserId)
-                            {
-                                <a href="unrsvp/@wed.WeddingId">Un-RSVP</a>
-                            }
-                            else
-                            {
-                                <a href="rsvp/@wed.WeddingId">RSVP</a>
-                            }
-                        }
+                    }
+                    @if(positive)
+                    {
+                        <a href="unrsvp/@wed.WeddingId">Un-RSVP</a>
+                    }     
+                    else
+                    {
+                        <a href="rsvp/@wed.WeddingId">RSVP</a>
+                    }
                     }
                 </td>
             </tr>

@@ -119,7 +119,6 @@ namespace WeddingPlanner.Controllers
             _context.SaveChanges();
             return RedirectToAction("Dashboard", "Wedding");
         }
-
 //-------------------------------------------------------------------------------------------------------------
         [HttpGet]
         [Route("wedInfo/{wedID}")]
